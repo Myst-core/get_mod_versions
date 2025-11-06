@@ -32,13 +32,12 @@ E.g., Full versions (aka 1.21), Pre-releases and Snapshots.
 
 You will only need to interact with these lines of code below. You should find them in the 'filterModList' function.
 
-Full versions - `filtered_versions = [x for x in filtered_versions if '1.21' in x]`
-
-- You can change the '1.21' to fit the version you want. E.g., 1.18 or 1.8.
-
-Pre-releases - `filtered_versions = [x for x in filtered_versions if not '-' in x]`
-
-Snapshots - `filtered_versions = [x for x in filtered_versions if not 'w' in x]`
+> Full versions - `filtered_versions = [x for x in filtered_versions if '1.21' in x]`
+> - You can change the '1.21' to fit the version you want. E.g., 1.18 or 1.8.
+>
+> Pre-releases - `filtered_versions = [x for x in filtered_versions if not '-' in x]`
+>
+> Snapshots - `filtered_versions = [x for x in filtered_versions if not 'w' in x]`
 
 If you want to remove the filters, just comment the lines out. 
 >For the people who don't know Python, that is a '#' before the code.
