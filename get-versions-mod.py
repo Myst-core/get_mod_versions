@@ -2,7 +2,8 @@ import requests
 import json
 import os
 
-def get_file_from_folder():
+
+def getFileFromFolder():
   # lists files within folder 'modlist'
   files = os.listdir('modlist')
 
@@ -12,7 +13,8 @@ def get_file_from_folder():
   else:
     return files[0]
 
-def get_mod_id(line):
+
+def getModId(line):
   # removes unwanted whitespace
   line = line.strip()
 
@@ -26,6 +28,23 @@ def get_mod_id(line):
     mod_id = line[-8:]
 
     return mod_id, line
+  
+  
+def filterModList(game_versions):
+  filtered_versions = game_versions
+  # filters for:
+  # 1.21.x version
+  filtered_versions = [x for x in filtered_versions if '1.21' in x] 
+
+  # not a pre-release | '-' is common
+  filtered_versions = [x for x in filtered_versions if not '-' in x] 
+
+  # not a snapshot | 'w' is common
+  filtered_versions = [x for x in filtered_versions if not 'w' in x] 
+
+  return filtered_versions
+
+
 
 def main():
   # deletes output file if it exists already
@@ -33,14 +52,14 @@ def main():
   if os.path.exists("mod_list.txt"):
     os.remove("mod_list.txt")
 
-  filename = get_file_from_folder()
+  filename = getFileFromFolder()
 
   # opens slug file
   with open(f'modlist/{filename}') as slugs:
     # loops through each line in file
     for i in slugs:
 
-      mod_id, line = get_mod_id(i)
+      mod_id, line = getModId(i)
 
       # ends program if found that mod was not from modrinth
       if mod_id == None or line == None:
@@ -69,10 +88,8 @@ def main():
         project_slug = parse_json['slug']
         game_versions = parse_json['game_versions']
 
-        # filters for common strings in data:
-        filtered_versions = [x for x in game_versions if '1.21' in x] # 1.21.x version
-        filtered_versions = [x for x in filtered_versions if not '-' in x] # not a pre-release | '-' is common
-        filtered_versions = [x for x in filtered_versions if not 'w' in x] # not a snapshot | 'w' is common
+        # filters for common strings in data
+        filtered_versions = filterModList(game_versions)
 
         # joins them into a readable string
         game_versions = ', '.join(filtered_versions)
